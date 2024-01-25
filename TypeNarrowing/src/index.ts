@@ -72,3 +72,64 @@ function getName(entity: User | Company) {
         entity
     }
 }
+
+//Type predicates
+interface Cat {
+    name: string,
+    numLives: number
+}
+
+interface Dog {
+    name: string,
+    breed: string
+}
+
+//If this returns true, variable is Cat
+function isCat(animal: Cat | Dog): animal is Cat {
+    return (animal as Cat).numLives !== undefined
+}
+
+function makeNoise(animal: Cat | Dog): string {
+    if(isCat(animal)) {
+        animal
+        return "Meow"
+    }
+    animal
+    return "Woof"
+}
+
+//Discriminated Unions
+interface Rooster {
+    name: string,
+    weight: number,
+    age: number,
+    kind: "rooster"
+}
+interface Cow {
+    name: string,
+    weight: number,
+    age: number,
+    kind: "cow"
+}
+interface Pig {
+    name: string,
+    weight: number,
+    age: number,
+    kind: "pig"
+}
+
+type FarmAnimal = Rooster | Cow | Pig
+
+function getFarmAnimalSound(animal: FarmAnimal) {
+    switch(animal.kind) {
+        case("pig"):
+            return "Oink"
+        case("cow"):
+            return "Moo"
+        case("rooster"):
+            return "a"
+        default:
+            //Check if we handle every possible case
+            const shouldNeverGetHere: never = animal
+    }
+}
